@@ -1,13 +1,29 @@
 package com.example.skeletonapp.ui.settings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.skeletonapp.data.DataProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val dataProvider: DataProvider
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Settings Fragment"
+    private val _displayData = MutableStateFlow<List<String>>(emptyList())
+    val displayData = _displayData.asStateFlow()
+
+    fun loadData() {
+        viewModelScope.launch {
+            _displayData.value = dataProvider.getData().flatMap { dataItem ->
+                dataItem.values
+            }
+        }
+
     }
-    val text: LiveData<String> = _text
+
 }
