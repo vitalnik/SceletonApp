@@ -8,12 +8,12 @@ data class DataItem(val id: Int, val values: List<String>)
 class DataProvider @Inject constructor() {
 
     suspend fun getData(): List<DataItem> {
-        delay(1000)
+        delay(100)
         val list = mutableListOf<DataItem>()
-        repeat(3) { i ->
+        repeat(10) { i ->
             val subList = mutableListOf<String>()
-            repeat(3) { j ->
-                subList.add("Item ${j + (i * 3)}")
+            repeat(10) { j ->
+                subList.add("Item ${j + (i * 10)}")
             }
             list.add(DataItem(i, subList))
         }

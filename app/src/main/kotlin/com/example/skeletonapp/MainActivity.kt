@@ -1,16 +1,22 @@
 package com.example.skeletonapp
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updateMargins
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.skeletonapp.databinding.ActivityDrawerBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,6 +25,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val currentInsetTypes = mutableSetOf<Int>()
+    private var currentWindowInsets: WindowInsetsCompat = WindowInsetsCompat.Builder().build()
 
     private lateinit var binding: ActivityDrawerBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -29,8 +38,19 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
+
+//        val window = this.window
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//        window.statusBarColor = this.resources.getColor(R.color.teal_700)
+
         binding = ActivityDrawerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, windowInsets ->
+//            currentWindowInsets = windowInsets
+//            applyInsets()
+//        }
 
         setSupportActionBar(binding.mainContent.toolbar)
 
@@ -76,5 +96,18 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    private fun applyInsets(): WindowInsetsCompat {
+        val currentInsetTypeMask = currentInsetTypes.fold(0) { accumulator, type ->
+            accumulator or type
+        }
+        val insets = currentWindowInsets.getInsets(currentInsetTypeMask)
+        binding.root.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            updateMargins(insets.left, insets.top, insets.right, insets.bottom)
+        }
+        return WindowInsetsCompat.Builder()
+            .setInsets(currentInsetTypeMask, insets)
+            .build()
     }
 }
