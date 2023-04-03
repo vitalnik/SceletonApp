@@ -5,14 +5,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -22,6 +27,7 @@ import com.example.skeletonapp.databinding.ActivityDrawerBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -69,6 +75,34 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
+
+        binding.navView.menu.findItem(R.id.navigation_login)
+            .setOnMenuItemClickListener { menuItem: MenuItem? ->
+                //write your implementation here
+                //to close the navigation drawer
+//            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+//                drawer_layout.closeDrawer(GravityCompat.START)
+//            }
+                viewModel.toggleSessionState()
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+
+                true
+            }
+
+        lifecycleScope.launch {
+            viewModel.sessionFlow
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+
+                    binding.navView.menu.findItem(R.id.navigation_login).title = if (it) "Log Out" else "Log In"
+
+                    Toast.makeText(
+                        applicationContext,
+                        if (it) "Logged In" else "Logged Out",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
 
     }
 

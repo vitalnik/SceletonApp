@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.skeletonapp.MainViewModel
 import com.example.skeletonapp.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,7 +22,9 @@ class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
-    private val settingsViewModel: SettingsViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModels()
+
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var recyclerViewAdapter: DataAdapter
 
@@ -39,7 +43,7 @@ class SettingsFragment : Fragment() {
         binding.recyclerView.adapter = recyclerViewAdapter
 
         lifecycleScope.launch {
-            settingsViewModel.displayData
+            viewModel.displayData
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     recyclerViewAdapter.data = it
@@ -47,7 +51,23 @@ class SettingsFragment : Fragment() {
                 }
         }
 
-        settingsViewModel.loadData()
+//        lifecycleScope.launch {
+//            mainViewModel.sessionFlow
+//                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+//                .collect {
+//                    binding.sessionStateText.text = if (it) "Logged In" else "Logged Out"
+//                }
+//        }
+
+        lifecycleScope.launch {
+            viewModel.sessionFlow
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    binding.sessionStateText.text = if (it) "Logged In" else "Logged Out"
+                }
+        }
+
+        viewModel.loadData()
 
         return root
     }
