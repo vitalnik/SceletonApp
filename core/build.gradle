@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 
     // required by Hilt
-    id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
+    //id 'kotlin-kapt'
+    //id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -49,5 +49,5 @@ dependencies {
 
     // Hilt
     implementation "com.google.dagger:hilt-android:2.44.2"
-    kapt "com.google.dagger:hilt-compiler:2.44.2"
+    //kapt "com.google.dagger:hilt-compiler:2.44.2"
 }

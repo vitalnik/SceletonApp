@@ -19,6 +19,8 @@ class MainViewModel @Inject constructor(
 
     val sessionFlow = sessionManager.sessionFlow
 
+    fun isLoggedIn() = sessionFlow.value
+
     fun toggleSessionState() {
 
         viewModelScope.launch {

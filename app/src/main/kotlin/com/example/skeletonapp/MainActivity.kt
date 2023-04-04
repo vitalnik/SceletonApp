@@ -1,11 +1,13 @@
 package com.example.skeletonapp
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
@@ -26,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -97,14 +100,47 @@ class MainActivity : AppCompatActivity() {
                     binding.navView.menu.findItem(R.id.navigation_login).title =
                         if (it) "Log Out" else "Log In"
 
-                    Toast.makeText(
-                        applicationContext,
-                        if (it) "Logged In" else "Logged Out",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (!it) {
+                        showAlert("Session is over")
+                    }
                 }
         }
+    }
 
+    private fun showAlert(message: String) {
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+        builder.setMessage(message)
+        builder.setTitle("Warning")
+        builder.setCancelable(false)
+
+        builder.setPositiveButton(
+            "Log in"
+        ) { dialog: DialogInterface, which: Int ->
+            viewModel.toggleSessionState()
+            dialog.cancel()
+        }
+
+        builder.setNegativeButton(
+            "Finish"
+        ) { dialog: DialogInterface, which: Int ->
+            finish()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+//        if (!viewModel.isLoggedIn()) {
+//            Toast.makeText(
+//                applicationContext,
+//                "Logged out in Feature module",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
