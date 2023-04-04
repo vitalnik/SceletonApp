@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -69,7 +67,9 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_settings
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_settings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -94,7 +94,8 @@ class MainActivity : AppCompatActivity() {
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
 
-                    binding.navView.menu.findItem(R.id.navigation_login).title = if (it) "Log Out" else "Log In"
+                    binding.navView.menu.findItem(R.id.navigation_login).title =
+                        if (it) "Log Out" else "Log In"
 
                     Toast.makeText(
                         applicationContext,

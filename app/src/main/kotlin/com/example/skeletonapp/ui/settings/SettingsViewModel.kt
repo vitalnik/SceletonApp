@@ -2,8 +2,8 @@ package com.example.skeletonapp.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.managers.SessionManager
 import com.example.skeletonapp.data.DataProvider
-import com.example.skeletonapp.managers.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

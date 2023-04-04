@@ -1,4 +1,4 @@
-package com.example.skeletonapp.managers
+package com.example.core.managers
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
