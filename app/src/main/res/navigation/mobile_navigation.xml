@@ -17,11 +17,27 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
-    <fragment
+    <navigation
         android:id="@+id/navigation_feature"
-        android:name="com.example.skeletonapp.ui.feature.FeatureFragment"
-        android:label="@string/title_feature"
-        tools:layout="@layout/fragment_feature" />
+        app:startDestination="@+id/navigation_fragment_feature">
+
+        <fragment
+            android:id="@+id/navigation_fragment_feature"
+            android:name="com.example.skeletonapp.ui.feature.FeatureFragment"
+            android:label="@string/title_nested_fragment"
+            tools:layout="@layout/fragment_feature">
+            <action
+                android:id="@+id/action_navigation_feature_to_navigation_nested_fragment"
+                app:destination="@id/navigation_nested_fragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/navigation_nested_fragment"
+            android:name="com.example.skeletonapp.ui.feature.nestedFragment.NestedFragment"
+            android:label="@string/title_feature"
+            tools:layout="@layout/fragment_nested" />
+
+    </navigation>
 
     <fragment
         android:id="@+id/navigation_settings"

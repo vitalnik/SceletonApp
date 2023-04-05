@@ -27,4 +27,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleText" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nestedFragmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Navigate to Nested Fragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/featureButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

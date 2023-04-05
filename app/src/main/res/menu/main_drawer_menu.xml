@@ -12,10 +12,17 @@
             android:id="@+id/navigation_dashboard"
             android:icon="@drawable/ic_android"
             android:title="@string/title_dashboard" />
+
+        <item
+            android:id="@+id/navigation_feature"
+            android:icon="@drawable/ic_feature"
+            android:title="@string/title_feature" />
+
         <item
             android:id="@+id/navigation_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/title_settings" />
+
         <item
             android:id="@+id/navigation_login"
             android:icon="@drawable/ic_login"

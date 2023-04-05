@@ -11,9 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.featuremodule.FeatureActivity
 import com.example.skeletonapp.MainViewModel
+import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.FragmentFeatureBinding
 import com.example.skeletonapp.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +43,10 @@ class FeatureFragment : Fragment() {
         binding.featureButton.setOnClickListener {
             val intent = Intent(requireContext(), FeatureActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.nestedFragmentButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_feature_to_navigation_nested_fragment)
         }
 
         return root
