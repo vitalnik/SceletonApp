@@ -36,7 +36,7 @@ class NestedFragment : Fragment() {
                 10000.0,
                 440000.0,
                 40000.0,
-                10000.0,
+                40000.0,
             )
             setInputHint("Enter decimal number")
 

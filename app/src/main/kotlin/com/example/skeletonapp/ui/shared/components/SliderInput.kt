@@ -17,7 +17,10 @@ import com.example.skeletonapp.ui.feature.nestedFragment.setMinAndMaxValues
 import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import com.example.skeletonapp.ui.shared.toPercentageString
 import com.google.android.material.slider.Slider
+import kotlin.math.ceil
+import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToLong
 
 /**
@@ -197,7 +200,11 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
         value >= valueTo -> valueTo
         else -> {
             val valueRemainder = (value - valueFrom) % stepSize
-            max((value - valueRemainder), valueFrom)
+            if (valueRemainder >= stepSize / 2) {
+                min((value + (stepSize - valueRemainder)), valueTo)
+            } else {
+                max((value - valueRemainder), valueFrom)
+            }
         }
     }
 

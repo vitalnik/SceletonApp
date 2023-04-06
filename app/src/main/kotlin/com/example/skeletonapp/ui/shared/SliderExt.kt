@@ -3,7 +3,10 @@ package com.example.skeletonapp.ui.feature.nestedFragment
 import com.google.android.material.slider.Slider
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import kotlin.math.ceil
+import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 private val minMaxNumberFormat = DecimalFormat("#")
@@ -16,9 +19,9 @@ private const val DEFAULT_STEP_SIZE = 1f
  * slider range value
  */
 fun Slider.isStepSizeFactorOfRange(stepSize: Float) = stepSize != 0f &&
-    valueFrom % stepSize == 0f &&
-    valueTo % stepSize == 0f &&
-    value % stepSize == 0f
+        valueFrom % stepSize == 0f &&
+        valueTo % stepSize == 0f &&
+        value % stepSize == 0f
 
 /**
  * Set Slider settings based on given values.
@@ -56,6 +59,10 @@ fun Slider.setMinAndMaxValues(
 
     value?.let { requestedValue ->
         val valueRemainder = (requestedValue - valueFrom) % stepSize
-        this.value = max((requestedValue - valueRemainder).toFloat(), valueFrom)
+        if (valueRemainder >= stepSize / 2) {
+            this.value = min((requestedValue + (stepSize - valueRemainder)).toFloat(), valueTo)
+        } else {
+            this.value = max((requestedValue - valueRemainder).toFloat(), valueFrom)
+        }
     }
 }
