@@ -14,4 +14,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+
+    <string name="election_card_allowed_contribution_range_with_increment_label" comment="Election Option Card: the range of the allowed contribution with set increment">Amount must be between %1$s and %2$s and be an increment of %3$s</string>
+
 </resources>

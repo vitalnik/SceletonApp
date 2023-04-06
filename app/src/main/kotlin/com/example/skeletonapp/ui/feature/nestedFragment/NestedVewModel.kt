@@ -13,21 +13,14 @@ class NestedVewModel : ViewModel() {
     private val _textValueFlow = MutableStateFlow<String>("4000.0")
     val textValueFlow = _textValueFlow.asStateFlow()
 
-    val sliderMinValue = 1000.0
-    val sliderMaxValue = 10000.0
-    val sliderIncrement = 500.0
-    val sliderValue = 4000.0
-
     var updateTextValueJob: Job? = null
 
-    fun updateTextValue(value: String) {
-
+    fun updateTextValue(value: String, delay: Long = 0) {
         updateTextValueJob?.cancel()
         updateTextValueJob = viewModelScope.launch {
-            delay(2000)
-            _textValueFlow.value = value
+            delay(delay)
+            _textValueFlow.emit(value)
         }
-
     }
 
 
