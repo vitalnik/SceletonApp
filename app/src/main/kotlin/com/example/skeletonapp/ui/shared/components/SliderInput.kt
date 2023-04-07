@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.SliderInputBinding
 import com.example.skeletonapp.ui.feature.sliderInputFragment.setMinAndMaxValues
+import com.example.skeletonapp.ui.feature.sliderInputFragment.setNormalizedValue
 import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import com.example.skeletonapp.ui.shared.toPercentageString
 import com.google.android.material.slider.Slider
@@ -95,10 +96,9 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
         override fun afterTextChanged(editable: Editable) {
             if (fromUser) {
-                val inputValue = if (editable.isEmpty()) 0.0 else editable.toString().toDouble()
-                val normalizedValue = getNormalizedValue(inputValue)
+                val inputValue = if (editable.isEmpty()) 0f else editable.toString().toFloat()
 
-                binding.slider.value = normalizedValue.toFloat()
+                binding.slider.setNormalizedValue(inputValue)
 
                 updateFormattedText()
 
@@ -121,9 +121,6 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
         increment: Double?,
         value: Double?,
     ) {
-
-        this.currencySymbol = currencySymbol
-        this.fieldFormat = fieldFormat
 
         binding.slider.setMinAndMaxValues(min, max, increment, value)
         binding.slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
@@ -191,19 +188,6 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
      */
     fun setInputHint(hint: String) {
         binding.inputLayout.hint = hint
-    }
-
-    private fun getNormalizedValue(value: Double): Double = when {
-        value <= valueFrom -> valueFrom
-        value >= valueTo -> valueTo
-        else -> {
-            val valueRemainder = (value - valueFrom) % stepSize
-            if (valueRemainder >= stepSize / 2) {
-                min((value + (stepSize - valueRemainder)), valueTo)
-            } else {
-                max((value - valueRemainder), valueFrom)
-            }
-        }
     }
 
     private fun updateFormattedText() {

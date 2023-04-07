@@ -1,5 +1,6 @@
 package com.example.skeletonapp.ui.feature.sliderInputFragment
 
+import android.util.Log
 import com.google.android.material.slider.Slider
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -27,7 +28,7 @@ fun Slider.isStepSizeFactorOfRange(stepSize: Float) = stepSize != 0f &&
  * Sets the min, max, actual value, and the incremental values for the slider so the increment
  * and slider value is always a factor of the slider range value. In the case when incremental and
  * slider values are not a factor of the slider range value, the incremental and slider values will
- * be adjusted and rounded up to follow slider value restrictions.
+ * be adjusted and rounded up or down to follow slider value restrictions.
  */
 fun Slider.setMinAndMaxValues(
     minValue: Double?,
@@ -55,12 +56,21 @@ fun Slider.setMinAndMaxValues(
         (maxValue - remainder).toFloat()
     }
 
-    value?.let { requestedValue ->
-        val valueRemainder = (requestedValue - valueFrom) % stepSize
-        if (valueRemainder >= stepSize / 2) {
-            this.value = min((requestedValue + (stepSize - valueRemainder)).toFloat(), valueTo)
-        } else {
-            this.value = max((requestedValue - valueRemainder).toFloat(), valueFrom)
+    setNormalizedValue(value?.toFloat() ?: 0f)
+}
+
+fun Slider.setNormalizedValue(requestedValue: Float) {
+    this.value = when {
+        requestedValue <= valueFrom -> valueFrom
+        requestedValue >= valueTo -> valueTo
+        else -> {
+            val valueRemainder = (requestedValue - valueFrom) % stepSize
+            if (valueRemainder >= stepSize / 2) {
+                requestedValue + (stepSize - valueRemainder)
+            } else {
+                requestedValue - valueRemainder
+            }
         }
     }
 }
+
