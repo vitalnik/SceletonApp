@@ -13,13 +13,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.SliderInputBinding
-import com.example.skeletonapp.ui.feature.sliderInputFragment.setMinAndMaxValues
-import com.example.skeletonapp.ui.feature.sliderInputFragment.setNormalizedValue
+import com.example.skeletonapp.ui.shared.extensions.setMinAndMaxValues
+import com.example.skeletonapp.ui.shared.extensions.setNormalizedValue
 import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import com.example.skeletonapp.ui.shared.toPercentageString
 import com.google.android.material.slider.Slider
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.roundToLong
 
 /**
@@ -101,7 +99,6 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
                 binding.slider.setNormalizedValue(inputValue)
 
                 updateFormattedText()
-
                 updateTextEditWithNormalizedValue()
             }
         }
@@ -132,7 +129,7 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
                 userInputStoppedCallback(slider.value.toDouble())
             }
         })
-        binding.slider.addOnChangeListener { _, sliderValue, fromUser ->
+        binding.slider.addOnChangeListener { _, _, fromUser ->
             if (fromUser) {
                 handler.removeCallbacks(inputFinishedRunnable)
                 updateTextEditWithSliderValue()

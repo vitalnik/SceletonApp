@@ -1,11 +1,9 @@
-package com.example.skeletonapp.ui.feature.sliderInputFragment
+package com.example.skeletonapp.ui.shared.extensions
 
-import android.util.Log
 import com.google.android.material.slider.Slider
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.roundToInt
 
 private val minMaxNumberFormat = DecimalFormat("#")
