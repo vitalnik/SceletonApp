@@ -24,18 +24,18 @@
         <fragment
             android:id="@+id/navigation_fragment_feature"
             android:name="com.example.skeletonapp.ui.feature.FeatureFragment"
-            android:label="@string/title_nested_fragment"
+            android:label="@string/title_slider_input_fragment"
             tools:layout="@layout/fragment_feature">
             <action
                 android:id="@+id/action_navigation_feature_to_navigation_nested_fragment"
-                app:destination="@id/navigation_nested_fragment" />
+                app:destination="@id/navigation_slider_input_fragment" />
         </fragment>
 
         <fragment
-            android:id="@+id/navigation_nested_fragment"
-            android:name="com.example.skeletonapp.ui.feature.nestedFragment.NestedFragment"
-            android:label="@string/title_feature"
-            tools:layout="@layout/fragment_nested" />
+            android:id="@+id/navigation_slider_input_fragment"
+            android:name="com.example.skeletonapp.ui.feature.sliderInputFragment.SliderInputFragment"
+            android:label="@string/title_slider_input_fragment"
+            tools:layout="@layout/fragment_slider_input" />
 
     </navigation>
 

@@ -1,10 +1,8 @@
-package com.example.skeletonapp.ui.feature.nestedFragment
+package com.example.skeletonapp.ui.feature.sliderInputFragment
 
 import com.google.android.material.slider.Slider
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import kotlin.math.ceil
-import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt

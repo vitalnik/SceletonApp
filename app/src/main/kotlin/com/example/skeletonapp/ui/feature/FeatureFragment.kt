@@ -8,18 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.featuremodule.FeatureActivity
 import com.example.skeletonapp.MainViewModel
 import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.FragmentFeatureBinding
-import com.example.skeletonapp.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import com.example.featuremodule.FeatureActivity
 
 @AndroidEntryPoint
 class FeatureFragment : Fragment() {
@@ -45,7 +39,7 @@ class FeatureFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.nestedFragmentButton.setOnClickListener {
+        binding.slideInputButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_feature_to_navigation_nested_fragment)
         }
 

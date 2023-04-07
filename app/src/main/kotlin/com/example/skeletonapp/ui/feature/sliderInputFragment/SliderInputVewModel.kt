@@ -1,4 +1,4 @@
-package com.example.skeletonapp.ui.feature.nestedFragment
+package com.example.skeletonapp.ui.feature.sliderInputFragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class NestedVewModel : ViewModel() {
+class SliderInputVewModel : ViewModel() {
 
     private val _textValueFlow = MutableStateFlow<String>("4000.0")
     val textValueFlow = _textValueFlow.asStateFlow()

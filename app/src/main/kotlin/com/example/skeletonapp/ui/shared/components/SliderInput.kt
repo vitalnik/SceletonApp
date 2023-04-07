@@ -13,12 +13,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.SliderInputBinding
-import com.example.skeletonapp.ui.feature.nestedFragment.setMinAndMaxValues
+import com.example.skeletonapp.ui.feature.sliderInputFragment.setMinAndMaxValues
 import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import com.example.skeletonapp.ui.shared.toPercentageString
 import com.google.android.material.slider.Slider
-import kotlin.math.ceil
-import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToLong
