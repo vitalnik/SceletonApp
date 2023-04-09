@@ -24,7 +24,7 @@
         <fragment
             android:id="@+id/navigation_fragment_feature"
             android:name="com.example.skeletonapp.ui.feature.FeatureFragment"
-            android:label="@string/title_slider_input_fragment"
+            android:label="@string/title_feature"
             tools:layout="@layout/fragment_feature">
             <action
                 android:id="@+id/action_navigation_feature_to_navigation_nested_fragment"
