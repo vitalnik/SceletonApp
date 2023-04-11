@@ -1,4 +1,4 @@
-package com.example.skeletonapp.ui.shared
+package com.example.skeletonapp.ui.shared.extensions
 
 import java.text.DecimalFormat
 

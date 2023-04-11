@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +11,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.SliderInputBinding
+import com.example.skeletonapp.ui.shared.CurrencyTextWatcher
 import com.example.skeletonapp.ui.shared.extensions.setMinAndMaxValues
 import com.example.skeletonapp.ui.shared.extensions.setNormalizedValue
 import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
-import com.example.skeletonapp.ui.shared.toPercentageString
+import com.example.skeletonapp.ui.shared.extensions.toPercentageString
 import com.google.android.material.slider.Slider
 import kotlin.math.roundToLong
 
@@ -61,7 +60,7 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
     /**
      * Currency symbol.
      */
-    var currencySymbol: String = "$"
+    var currencySymbol: String = ""
 
     init {
         binding = SliderInputBinding.inflate(LayoutInflater.from(context), this, true)
@@ -80,28 +79,13 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private val textWatcher: TextWatcher = object : TextWatcher {
-
-        private var fromUser = true
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            // no-op
-        }
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            fromUser = (binding.editText.text?.length ?: 0) > count
-        }
-
-        override fun afterTextChanged(editable: Editable) {
-            if (fromUser) {
-                val inputValue = if (editable.isEmpty()) 0f else editable.toString().toFloat()
-
-                binding.slider.setNormalizedValue(inputValue)
-
-                updateFormattedText()
-                updateTextEditWithNormalizedValue()
-            }
-        }
+    private val textWatcher = CurrencyTextWatcher(
+        binding.editText,
+        currencySymbol,
+    ) { inputValue ->
+        binding.slider.setNormalizedValue(inputValue.toFloat())
+        updateFormattedText()
+        updateTextEditWithNormalizedValue()
     }
 
     private fun updateTextEditWithNormalizedValue() {

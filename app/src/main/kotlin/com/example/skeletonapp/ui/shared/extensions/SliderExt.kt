@@ -57,18 +57,20 @@ fun Slider.setMinAndMaxValues(
     setNormalizedValue(value?.toFloat() ?: 0f)
 }
 
+/**
+ * Making requested value to always fall on next Slider's tick.
+ */
 fun Slider.setNormalizedValue(requestedValue: Float) {
     this.value = when {
         requestedValue <= valueFrom -> valueFrom
         requestedValue >= valueTo -> valueTo
         else -> {
             val valueRemainder = (requestedValue - valueFrom) % stepSize
-            if (valueRemainder >= stepSize / 2) {
+            if (valueRemainder > 0f) {
                 requestedValue + (stepSize - valueRemainder)
             } else {
-                requestedValue - valueRemainder
+                requestedValue
             }
         }
     }
 }
-
