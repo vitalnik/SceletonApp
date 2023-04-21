@@ -2,6 +2,7 @@ package com.example.skeletonapp.ui.shared
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -14,12 +15,11 @@ class CurrencyTextWatcher(
     private val editText: EditText,
     private val currencySymbol: String,
     private val maxNumberOfDecimalPlaces: Int = 2,
-    val onUpdateFromUser: (value: Double) -> Unit = {}
+    private val onUpdateFromUser: (value: Double) -> Unit
 ) : TextWatcher {
 
     private var removeAtIndex = -1
     private var removeCount = 0
-    private var fromUser = true
 
     private var hasDecimalPoint = false
     private val wholeNumberDecimalFormat =
@@ -50,7 +50,6 @@ class CurrencyTextWatcher(
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         hasDecimalPoint = s.toString().contains(decimalFormatSymbols.decimalSeparator.toString())
-        fromUser = (editText.text?.length ?: 0) > count
     }
 
     override fun afterTextChanged(s: Editable) {
@@ -72,7 +71,9 @@ class CurrencyTextWatcher(
             return
         }
 
+        Log.d("TAG", ">>>>> editText.removeTextChangedListener(this) >>>>>>>>>>>>>>>>>> $this")
         editText.removeTextChangedListener(this)
+
         val startLength = editText.text.length
 
         var numberWithoutGroupingSeparator =
@@ -97,6 +98,7 @@ class CurrencyTextWatcher(
         } catch (e: ParseException) {
             0.0
         }
+
         val selectionStartIndex = editText.selectionStart
 
         if (hasDecimalPoint) {
@@ -118,10 +120,9 @@ class CurrencyTextWatcher(
             editText.setSelection(editText.text.length - 1)
         }
 
-        if (fromUser) {
-            onUpdateFromUser(parsedNumber.toDouble())
-        }
+        onUpdateFromUser(parsedNumber.toDouble())
 
+        Log.d("TAG", ">>>>> editText.addTextChangedListener(this) $this")
         editText.addTextChangedListener(this)
     }
 
@@ -154,7 +155,7 @@ class CurrencyTextWatcher(
         value.replace(groupingSeparator, "").replace(currencySymbol, "")
 
     companion object {
-        const val FRACTION_FORMAT_PATTERN_PREFIX = "#,##0."
+        private const val FRACTION_FORMAT_PATTERN_PREFIX = "#,##0."
     }
 
 }

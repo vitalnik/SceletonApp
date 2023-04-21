@@ -1,4 +1,4 @@
-package com.example.skeletonapp.ui.feature
+package com.example.skeletonapp.ui.features
 
 import android.content.Intent
 import android.os.Bundle
@@ -39,8 +39,12 @@ class FeatureFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.slideInputButton.setOnClickListener {
+        binding.sliderInputButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_feature_to_navigation_nested_fragment)
+        }
+
+        binding.composeFragmentButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_feature_to_compose_fragment)
         }
 
         return root

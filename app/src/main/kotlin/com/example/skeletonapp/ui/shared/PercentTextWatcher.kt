@@ -30,9 +30,10 @@ class PercentTextWatcher(
 
         editText.removeTextChangedListener(this)
 
-            onUpdateFromUser(parsedValue.toDouble())
-            editText.setText(parsedValue.toDouble().toPercentageString())
-            editText.setSelection(editText.text.length - 1)
+        editText.setText(parsedValue.toDouble().toPercentageString())
+        editText.setSelection(editText.text.length - 1)
+
+        onUpdateFromUser(parsedValue.toDouble())
 
         editText.addTextChangedListener(this)
     }

@@ -1,6 +1,7 @@
-package com.example.skeletonapp.ui.feature.sliderInputFragment
+package com.example.skeletonapp.ui.features.sliderInputFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import com.example.skeletonapp.ui.shared.CurrencyTextWatcher
 import com.example.skeletonapp.ui.shared.PercentTextWatcher
 import com.example.skeletonapp.ui.shared.components.SliderInput
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -33,38 +33,49 @@ class SliderInputFragment : Fragment() {
 
         binding.sliderInput.apply {
             currencySymbol = "$"
-            fieldFormat = SliderInput.InputFieldFormat.PERCENT
+            fieldFormat = SliderInput.InputFieldFormat.CURRENCY
 
-//            initialize(
-//                10000.0,
-//                440000.0,
-//                40000.0,
-//                40000.0,
-//            )
-            initialize(
-                0.0,
-                100.0,
-                5.0,
-                50.0,
+            initializeSlider(
+                10000.0,
+                440000.0,
+                40000.0,
+                40000.0,
             )
+//            initializeSlider(
+//                0.0,
+//                100.0,
+//                5.0,
+//                50.0,
+//            )
             setInputHint("Enter decimal number")
 
-            userInputStoppedCallback = {
-
+            userInputCompletedCallback = {
+                Log.d("TAG", ">>>> userInputCompletedCallback $it ")
             }
         }
 
         binding.currencyInput.addTextChangedListener(
             CurrencyTextWatcher(binding.currencyInput, "$", 2) {
-
+                Log.d("TAG", ">>>>>>>> $it")
             }
         )
 
         binding.percentInput.addTextChangedListener(
             PercentTextWatcher(binding.percentInput) {
-
+                Log.d("TAG", ">>>>>>>> $it")
             }
         )
+
+        val dataSource = listOf("value1", "value2", "value3", "not_value1")
+
+        binding.label.apply {
+            text = dataSource.filter {
+                it.startsWith("val")
+            }.joinToString("\n")
+                .takeIf {
+                    !it.isNullOrEmpty()
+                } ?: "Nothing to display"
+        }
 
         return root
     }

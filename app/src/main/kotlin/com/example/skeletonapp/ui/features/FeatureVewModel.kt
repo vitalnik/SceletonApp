@@ -1,4 +1,4 @@
-package com.example.skeletonapp.ui.feature
+package com.example.skeletonapp.ui.features
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -45,4 +45,14 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="?attr/colorOnBackground"
+        tools:text="text\ntext" />
+
+
 </LinearLayout>

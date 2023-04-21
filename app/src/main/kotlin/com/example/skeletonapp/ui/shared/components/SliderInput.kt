@@ -1,21 +1,21 @@
 package com.example.skeletonapp.ui.shared.components
 
-import android.app.Activity
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
+import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.SliderInputBinding
 import com.example.skeletonapp.ui.shared.CurrencyTextWatcher
+import com.example.skeletonapp.ui.shared.PercentTextWatcher
 import com.example.skeletonapp.ui.shared.extensions.setMinAndMaxValues
 import com.example.skeletonapp.ui.shared.extensions.setNormalizedValue
-import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import com.example.skeletonapp.ui.shared.extensions.toPercentageString
+import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import com.google.android.material.slider.Slider
 import kotlin.math.roundToLong
 
@@ -29,33 +29,24 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
      * Input field format enum.
      */
     enum class InputFieldFormat {
-        NUMBER,
         CURRENCY,
-        PERCENT,
+        PERCENT
     }
 
     private var binding: SliderInputBinding
 
+    private lateinit var textWatcher: TextWatcher
+
     /**
      * Called when user stops inputting text or moving a slider.
      */
-    lateinit var userInputStoppedCallback: ((value: Double) -> Unit)
-
-    private val handler = Handler(Looper.getMainLooper())
-
-    private val valueFrom
-        get() = binding.slider.valueFrom.toDouble()
-
-    private val valueTo
-        get() = binding.slider.valueTo.toDouble()
-
-    private val stepSize
-        get() = binding.slider.stepSize.toDouble()
+    lateinit var userInputCompletedCallback: ((value: Double) -> Unit)
 
     /**
      * The format of the field.
      */
-    var fieldFormat: InputFieldFormat = InputFieldFormat.NUMBER
+    var fieldFormat: InputFieldFormat = InputFieldFormat.CURRENCY
+
 
     /**
      * Currency symbol.
@@ -66,58 +57,33 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
         binding = SliderInputBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
-    private val inputFinishedRunnable = Runnable {
-        updateTextEditWithSliderValue()
-        userInputStoppedCallback(binding.slider.value.toDouble())
-
-        hideKeyboard(binding.editText)
-    }
-
-    private fun hideKeyboard(view: View) {
-        val inputMethodManager =
-            context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private val textWatcher = CurrencyTextWatcher(
-        binding.editText,
-        currencySymbol,
-    ) { inputValue ->
-        binding.slider.setNormalizedValue(inputValue.toFloat())
-        updateFormattedText()
-        updateTextEditWithNormalizedValue()
-    }
-
-    private fun updateTextEditWithNormalizedValue() {
-        handler.removeCallbacks(inputFinishedRunnable)
-        handler.postDelayed(inputFinishedRunnable, USER_STOPPED_TYPING_DELAY)
-    }
-
     /**
      * Initializes component.
      */
-    fun initialize(
+    fun initializeSlider(
         min: Double?,
         max: Double?,
         increment: Double?,
         value: Double?,
     ) {
+        with(binding) {
+            slider.setMinAndMaxValues(min, max, increment, value)
 
-        binding.slider.setMinAndMaxValues(min, max, increment, value)
-        binding.slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-            override fun onStartTrackingTouch(slider: Slider) {
-                //no-op
-            }
+            slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+                override fun onStartTrackingTouch(slider: Slider) {
+                    //no-op
+                }
 
-            override fun onStopTrackingTouch(slider: Slider) {
-                userInputStoppedCallback(slider.value.toDouble())
-            }
-        })
-        binding.slider.addOnChangeListener { _, _, fromUser ->
-            if (fromUser) {
-                handler.removeCallbacks(inputFinishedRunnable)
-                updateTextEditWithSliderValue()
-                updateFormattedText()
+                override fun onStopTrackingTouch(slider: Slider) {
+                    userInputCompletedCallback(slider.value.toDouble())
+                }
+            })
+            slider.addOnChangeListener { _, _, fromUser ->
+                if (fromUser) {
+                    updateInputTextWithNormalizedValue()
+                }
+
+                Log.d("TAG", ">>> slider.addOnChangeListener fromUser: $fromUser")
             }
         }
 
@@ -125,13 +91,61 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
         initializeLabels()
     }
 
+    /**
+     * Sets text input layout hint.
+     */
+    fun setInputHint(hint: String) {
+        binding.inputLayout.hint = hint
+    }
+
+    /**
+     * Updating input text with normalized slider's value (next tick value).
+     */
+    private fun applyNormalizedValue() {
+        updateInputTextWithNormalizedValue()
+        userInputCompletedCallback(binding.slider.value.toDouble())
+    }
+
     private fun initializeEditText() {
+
+        textWatcher = when (fieldFormat) {
+            InputFieldFormat.PERCENT -> PercentTextWatcher(
+                binding.editText
+            ) {
+                updateSlider(it)
+            }
+            InputFieldFormat.CURRENCY -> CurrencyTextWatcher(
+                binding.editText,
+                currencySymbol,
+            ) {
+                updateSlider(it)
+            }
+        }
+
+        binding.editText.setOnEditorActionListener(
+            TextView.OnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    applyNormalizedValue()
+                    return@OnEditorActionListener true
+                }
+                false
+            }
+        )
+
         binding.editText.addTextChangedListener(textWatcher)
+
         binding.editText.setText(binding.slider.value.roundToLong().toString())
     }
 
+    private fun updateSlider(value: Double) {
+        binding.slider.setNormalizedValue(value.toFloat())
+    }
+
     private fun initializeLabels() {
-        binding.formattedText.alpha = DISABLED_ALPHA
+
+        val valueFrom = binding.slider.valueFrom.toDouble()
+        val valueTo = binding.slider.valueTo.toDouble()
+        val stepSize = binding.slider.stepSize.toDouble()
 
         binding.bottomLabel.apply {
             text = if (fieldFormat == InputFieldFormat.PERCENT) {
@@ -160,43 +174,28 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
                 )
             }
         }
-
-        updateFormattedText()
     }
 
-    /**
-     * Sets text input layout hint.
-     */
-    fun setInputHint(hint: String) {
-        binding.inputLayout.hint = hint
-    }
-
-    private fun updateFormattedText() {
-        val value = binding.slider.value.toDouble()
-        when (fieldFormat) {
-            InputFieldFormat.NUMBER -> {
-                binding.formattedText.text = value.toString()
-            }
-            InputFieldFormat.CURRENCY -> {
-                binding.formattedText.text = getFormattedCurrencyString(
-                    value, currencySymbol
-                )
-            }
-            InputFieldFormat.PERCENT -> {
-                binding.formattedText.text = value.toPercentageString()
-            }
-        }
-    }
-
-    private fun updateTextEditWithSliderValue() {
+    private fun updateInputTextWithNormalizedValue() {
         with(binding) {
             with(editText) {
-                setText(slider.value.roundToLong().toString())
+
+                Log.d("TAG", ">>> SliderInput updateInputTextWithNormalizedValue $textWatcher")
+
+                setText(getFormattedValue(slider.value.toDouble()))
+
                 requestFocus()
                 setSelection(length())
             }
         }
     }
+
+    private fun getFormattedValue(value: Double): String =
+        when (fieldFormat) {
+            InputFieldFormat.PERCENT -> value.toPercentageString()
+            InputFieldFormat.CURRENCY -> getFormattedCurrencyString(value, currencySymbol)
+                ?: ""
+        }
 
     override fun setEnabled(enabled: Boolean) {
         with(binding) {
@@ -204,15 +203,5 @@ class SliderInput(context: Context, attrs: AttributeSet) : LinearLayout(context,
             slider.isEnabled = enabled
         }
         super.setEnabled(enabled)
-    }
-
-    override fun onDetachedFromWindow() {
-        handler.removeCallbacks(inputFinishedRunnable)
-        super.onDetachedFromWindow()
-    }
-
-    companion object {
-        private const val USER_STOPPED_TYPING_DELAY = 1500L
-        private const val DISABLED_ALPHA = 0.5f
     }
 }

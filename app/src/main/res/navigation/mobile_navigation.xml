@@ -23,19 +23,27 @@
 
         <fragment
             android:id="@+id/navigation_fragment_feature"
-            android:name="com.example.skeletonapp.ui.feature.FeatureFragment"
+            android:name="com.example.skeletonapp.ui.features.FeatureFragment"
             android:label="@string/title_feature"
             tools:layout="@layout/fragment_feature">
             <action
                 android:id="@+id/action_navigation_feature_to_navigation_nested_fragment"
                 app:destination="@id/navigation_slider_input_fragment" />
+            <action
+                android:id="@+id/action_navigation_feature_to_compose_fragment"
+                app:destination="@id/navigation_compose_fragment" />
         </fragment>
 
         <fragment
             android:id="@+id/navigation_slider_input_fragment"
-            android:name="com.example.skeletonapp.ui.feature.sliderInputFragment.SliderInputFragment"
+            android:name="com.example.skeletonapp.ui.features.sliderInputFragment.SliderInputFragment"
             android:label="@string/title_slider_input_fragment"
             tools:layout="@layout/fragment_slider_input" />
+
+        <fragment
+            android:id="@+id/navigation_compose_fragment"
+            android:name="com.example.skeletonapp.ui.features.composeFragment.ComposeFragment"
+            android:label="Compose Fragment" />
 
     </navigation>
 

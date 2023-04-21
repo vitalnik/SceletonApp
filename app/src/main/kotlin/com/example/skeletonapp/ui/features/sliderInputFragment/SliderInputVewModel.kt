@@ -1,4 +1,4 @@
-package com.example.skeletonapp.ui.feature.sliderInputFragment
+package com.example.skeletonapp.ui.features.sliderInputFragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
