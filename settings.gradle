@@ -14,5 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "SkeletonApp"
 include ':app'
-include ':FeatureModule'
+include ':featureModule'
 include ':core'

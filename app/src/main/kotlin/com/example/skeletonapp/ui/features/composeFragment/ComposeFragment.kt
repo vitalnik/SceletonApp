@@ -9,23 +9,20 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.fragment.app.Fragment
-import dagger.hilt.android.AndroidEntryPoint
-
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.skeletonapp.ui.features.sliderInputFragment.SliderInputVewModel
+import com.google.accompanist.themeadapter.material3.Mdc3Theme
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ComposeFragment : Fragment() {
@@ -52,7 +49,8 @@ class ComposeFragment : Fragment() {
 
                 val viewModelCounter by viewModel.counterFlow.collectAsState()
 
-                MaterialTheme {
+                //MaterialTheme {
+                Mdc3Theme {
                     // In Compose world
 
                     Column(modifier = Modifier.padding(all = 16.dp)) {
