@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,36 +52,67 @@ class ComposeFragment : Fragment() {
 
                 val viewModelCounter by viewModel.counterFlow.collectAsState()
 
-                //MaterialTheme {
                 Mdc3Theme {
-                    // In Compose world
-
-                    Column(modifier = Modifier.padding(all = 16.dp)) {
-
-                        Text("Hello Compose! $counter --- $viewModelCounter")
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Button(onClick = { counter++ }) {
-                            Text("Click me!")
-                        }
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Button(onClick = {
+                    MainContent(
+                        counter,
+                        viewModelCounter,
+                        incrementCounter = {
+                            counter++
+                        },
+                        incrementCounterInViewModel = {
                             viewModel.incrementCounter()
-                        }) {
-                            Text("Update view model")
                         }
-
-                    }
-
+                    )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun MainContent(
+    counter: Int,
+    viewModelCounter: Int,
+    incrementCounter: () -> Unit = {},
+    incrementCounterInViewModel: () -> Unit = {}
+) {
+
+    Column(modifier = Modifier.padding(all = 16.dp)) {
+
+        Text("Hello Compose! $counter --- $viewModelCounter")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+            incrementCounter()
+        }) {
+            Text("Click me!")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+            incrementCounterInViewModel()
+        }) {
+            Text("Update view model")
         }
 
     }
 
 }
 
+@Preview
+@Composable 
+private fun MainContentPreview() {
+    MaterialTheme() {
+        MainContent(counter = 2, viewModelCounter = 4)
+    }
+}
 
+@Preview
+@Composable
+private fun MainContentPreview2() {
+    Mdc3Theme() {
+        MainContent(counter = 2, viewModelCounter = 4)
+    }
+}
