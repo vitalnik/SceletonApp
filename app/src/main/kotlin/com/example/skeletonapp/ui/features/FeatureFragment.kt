@@ -47,6 +47,10 @@ class FeatureFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_feature_to_compose_fragment)
         }
 
+        binding.videoPlayerButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_fragment_feature_to_video_player_fragment)
+        }
+
         return root
     }
 

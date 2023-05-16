@@ -32,6 +32,9 @@
             <action
                 android:id="@+id/action_navigation_feature_to_compose_fragment"
                 app:destination="@id/navigation_compose_fragment" />
+            <action
+                android:id="@+id/action_navigation_fragment_feature_to_video_player_fragment"
+                app:destination="@id/video_player_fragment" />
         </fragment>
 
         <fragment
@@ -44,6 +47,11 @@
             android:id="@+id/navigation_compose_fragment"
             android:name="com.example.skeletonapp.ui.features.composeFragment.ComposeFragment"
             android:label="Compose Fragment" />
+
+        <fragment
+            android:id="@+id/video_player_fragment"
+            android:name="com.example.skeletonapp.ui.features.videoplayer.VideoPlayerFragment"
+            android:label="Video Player Fragment" />
 
     </navigation>
 
