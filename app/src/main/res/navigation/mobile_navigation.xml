@@ -51,7 +51,7 @@
         <fragment
             android:id="@+id/video_player_fragment"
             android:name="com.example.skeletonapp.ui.features.videoplayer.VideoPlayerFragment"
-            android:label="Video Player Fragment" />
+            android:label="@string/title_video_player_fragment" />
 
     </navigation>
 

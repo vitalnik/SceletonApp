@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,10 +27,13 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
         dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+            binding.dashboardText.text = it
         }
+
+        binding.textWithPlaceholder.text = getString(R.string.text_with_placeholder, "TEXT")
+        binding.textWithoutPlaceholder.text = getString(R.string.text_without_placeholder)
+
         return root
     }
 

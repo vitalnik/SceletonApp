@@ -47,7 +47,7 @@ class VideoPlayerFragment : Fragment() {
         _binding = FragmentVideoPlayerBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //videoPlayer1 = ExoPlayer.Builder(requireContext()).build()
+        videoPlayer1 = ExoPlayer.Builder(requireContext()).build()
 
         return root
     }
@@ -78,10 +78,10 @@ class VideoPlayerFragment : Fragment() {
         }
 
 
-        // binding.videoPlayer1.player = videoPlayer1
+        binding.videoPlayer1.player = videoPlayer1
 
         viewModel.helpVideo1Flow.observe(viewLifecycleOwner) {
-            //playVideo(videoPlayer1, it, autoPlay = true)
+            playVideo(videoPlayer1, it, autoPlay = true)
         }
 
         viewModel.helpWebViewFlow.observe(viewLifecycleOwner) {
@@ -122,7 +122,7 @@ class VideoPlayerFragment : Fragment() {
         super.onDestroyView()
         _binding = null
 
-        //videoPlayer1.release()
+        videoPlayer1.release()
     }
 
 }

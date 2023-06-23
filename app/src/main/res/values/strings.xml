@@ -7,6 +7,7 @@
 
     <string name="title_feature">Features</string>
     <string name="title_slider_input_fragment">SliderInput Demo</string>
+    <string name="title_video_player_fragment">Video %s Player 100%%</string>
 
     <string name="title_settings">Settings</string>
 
@@ -19,5 +20,8 @@
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="election_card_allowed_contribution_range_with_increment_label" comment="Election Option Card: the range of the allowed contribution with set increment">Amount must be between %1$s and %2$s and be an increment of %3$s</string>
+
+    <string name="text_with_placeholder">This is a %1$s with placeholder 100%%</string>
+    <string name="text_without_placeholder">This is a TEXT without placeholder 100%% 100%</string>
 
 </resources>
