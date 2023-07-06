@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.FragmentDashboardBinding
+import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
@@ -28,11 +28,33 @@ class DashboardFragment : Fragment() {
         val root: View = binding.root
 
         dashboardViewModel.text.observe(viewLifecycleOwner) {
-            binding.dashboardText.text = it
+//            binding.dashboardText.text = it
         }
 
-        binding.textWithPlaceholder.text = getString(R.string.text_with_placeholder, "TEXT")
-        binding.textWithoutPlaceholder.text = getString(R.string.text_without_placeholder)
+//        binding.text1.text = getString(R.string.text_with_placeholder, "TEXT")
+//        binding.text2.text = getString(R.string.text_without_placeholder)
+
+        //var tmpStr = "Device locale: " + Locale.getDefault().displayName + "\n\n"
+        var tmpStr = ""
+
+        val currencyCode = "CAD"
+
+        mapOf<String, Locale>(
+            "US" to Locale.US,
+            "Canada" to Locale.CANADA,
+            "Canada FR" to Locale.CANADA_FRENCH,
+        ).forEach { (name, locale) ->
+            tmpStr += locale.displayName + "\n" + getFormattedCurrencyString(
+                100.99,
+                "$",
+                currencyCode,
+                locale
+            ) + "\n\n"
+        }
+
+        binding.text1.text = "CurrencyCode: " + currencyCode
+
+        binding.text2.text = tmpStr
 
         return root
     }
