@@ -35,6 +35,9 @@
             <action
                 android:id="@+id/action_navigation_fragment_feature_to_video_player_fragment"
                 app:destination="@id/video_player_fragment" />
+            <action
+                android:id="@+id/action_navigation_fragment_feature_to_two_way_binding_fragment"
+                app:destination="@id/two_way_binding_fragment" />
         </fragment>
 
         <fragment
@@ -52,6 +55,12 @@
             android:id="@+id/video_player_fragment"
             android:name="com.example.skeletonapp.ui.features.videoplayer.VideoPlayerFragment"
             android:label="@string/title_video_player_fragment" />
+
+        <fragment
+            android:id="@+id/two_way_binding_fragment"
+            android:name="com.example.skeletonapp.ui.features.twowaybinding.TwoWayBindingFragment"
+            android:label="@string/title_two_way_binding"
+            tools:layout="@layout/fragment_two_way_binding" />
 
     </navigation>
 

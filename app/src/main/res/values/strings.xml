@@ -8,6 +8,7 @@
     <string name="title_feature">Features</string>
     <string name="title_slider_input_fragment">SliderInput Demo</string>
     <string name="title_video_player_fragment">Video %s Player 100%%</string>
+    <string name="title_two_way_binding">Two-way binding</string>
 
     <string name="title_settings">Settings</string>
 

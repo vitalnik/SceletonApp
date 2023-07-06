@@ -51,6 +51,10 @@ class FeatureFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_fragment_feature_to_video_player_fragment)
         }
 
+        binding.twoWayBindingButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_fragment_feature_to_two_way_binding_fragment)
+        }
+
         return root
     }
 
