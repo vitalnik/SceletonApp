@@ -16,3 +16,4 @@ rootProject.name = "SkeletonApp"
 include ':app'
 include ':featureModule'
 include ':core'
+include ':featureModule2'

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature2_navigation"
+    app:startDestination="@+id/fragment_feature2_home">
+
+    <fragment
+        android:id="@+id/fragment_feature2_home"
+        android:name="com.example.featuremodule2.ui.home.Feature2HomeFragment"
+        android:label="Feature2 Home"
+        tools:layout="@layout/fragment_feature2_home" >
+        <action
+            android:id="@+id/action_fragment_feature2_home_to_fragment_feature2_compose"
+            app:destination="@id/fragment_feature2_compose" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_feature2_compose"
+        android:name="com.example.featuremodule2.ui.compose.Feature2ComposeFragment"
+        android:label="Compose" />
+
+</navigation>

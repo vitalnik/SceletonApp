@@ -14,6 +14,7 @@ import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.FragmentFeatureBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.featuremodule.FeatureActivity
+import com.example.featuremodule2.Feature2Activity
 
 @AndroidEntryPoint
 class FeatureFragment : Fragment() {
@@ -36,6 +37,11 @@ class FeatureFragment : Fragment() {
 
         binding.featureButton.setOnClickListener {
             val intent = Intent(requireContext(), FeatureActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.featureButton2.setOnClickListener {
+            val intent = Intent(requireContext(), Feature2Activity::class.java)
             startActivity(intent)
         }
 
