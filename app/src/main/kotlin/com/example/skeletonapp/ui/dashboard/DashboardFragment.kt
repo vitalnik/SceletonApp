@@ -37,7 +37,8 @@ class DashboardFragment : Fragment() {
         //var tmpStr = "Device locale: " + Locale.getDefault().displayName + "\n\n"
         var tmpStr = ""
 
-        val currencyCode = "CAD"
+        val currencySymbol = "$"
+        val currencyCode = "USD"
 
         mapOf<String, Locale>(
             "US" to Locale.US,
@@ -46,13 +47,14 @@ class DashboardFragment : Fragment() {
         ).forEach { (name, locale) ->
             tmpStr += locale.displayName + "\n" + getFormattedCurrencyString(
                 100.99,
-                "$",
+                currencySymbol,
                 currencyCode,
                 locale
             ) + "\n\n"
         }
 
-        binding.text1.text = "CurrencyCode: " + currencyCode
+        binding.text1.text =
+            "CurrencyCode: " + currencyCode + "\n\nLocale: " + Locale.getDefault().displayName
 
         binding.text2.text = tmpStr
 

@@ -15,14 +15,14 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Feature2ComposeFragment : Fragment() {
 
-    private val viewModel: Feature2ComposeViewModel by viewModels()
+    private val viewModel: Feature2ComposeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
