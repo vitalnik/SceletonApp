@@ -2,6 +2,7 @@ package com.example.skeletonapp.ui.features
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,13 @@ import com.example.skeletonapp.databinding.FragmentFeatureBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.featuremodule.FeatureActivity
 import com.example.featuremodule2.Feature2Activity
+import java.io.BufferedReader
+import java.io.FileNotFoundException
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLException
 
 @AndroidEntryPoint
 class FeatureFragment : Fragment() {
@@ -61,6 +69,10 @@ class FeatureFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_fragment_feature_to_two_way_binding_fragment)
         }
 
+        binding.networkingButton.setOnClickListener {
+            viewModel.testNetworking()
+        }
+
         return root
     }
 
@@ -68,4 +80,7 @@ class FeatureFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
+
 }
