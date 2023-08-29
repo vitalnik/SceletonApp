@@ -12,8 +12,10 @@ import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.net.URL
-import javax.net.ssl.SSLException
+
 
 class FeatureVewModel : ViewModel() {
 
@@ -38,7 +40,13 @@ class FeatureVewModel : ViewModel() {
 
     private fun getUrlContentAsString(urlString: String): String {
         val url = URL(urlString)
-        val connection = url.openConnection() as HttpURLConnection
+
+        val proxy = Proxy(
+            Proxy.Type.HTTP,
+            InetSocketAddress("192.168.171.86", 8888)
+        )
+
+        val connection = url.openConnection(proxy) as HttpURLConnection
         connection.requestMethod = "GET"
 
         // HTTP GET request sometimes returns error 404 along with the content
