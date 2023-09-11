@@ -20,4 +20,6 @@ class DataProvider @Inject constructor() {
         return list
     }
 
+    fun getData2() = "12345"
+
 }

@@ -54,6 +54,13 @@
             android:text="Two-way Binding" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/baseViewModelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Base ViewModel" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/networkingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

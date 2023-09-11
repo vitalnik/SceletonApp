@@ -69,6 +69,10 @@ class FeatureFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_fragment_feature_to_two_way_binding_fragment)
         }
 
+        binding.baseViewModelButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_fragment_feature_to_base_viewmodel_fragment)
+        }
+
         binding.networkingButton.setOnClickListener {
             viewModel.testNetworking()
         }

@@ -38,6 +38,9 @@
             <action
                 android:id="@+id/action_navigation_fragment_feature_to_two_way_binding_fragment"
                 app:destination="@id/two_way_binding_fragment" />
+            <action
+                android:id="@+id/action_navigation_fragment_feature_to_base_viewmodel_fragment"
+                app:destination="@id/base_viewmodel_fragment" />
         </fragment>
 
         <fragment
@@ -45,6 +48,12 @@
             android:name="com.example.skeletonapp.ui.features.sliderInputFragment.SliderInputFragment"
             android:label="@string/title_slider_input_fragment"
             tools:layout="@layout/fragment_slider_input" />
+
+        <fragment
+            android:id="@+id/base_viewmodel_fragment"
+            android:name="com.example.skeletonapp.ui.features.baseviewmodel.BaseViewModelFragment"
+            android:label="Base ViewModel"
+            tools:layout="@layout/fragment_base_view_model" />
 
         <fragment
             android:id="@+id/navigation_compose_fragment"
