@@ -17,7 +17,7 @@ fun getFormattedCurrencyString(
 
     var formatLocale = locale
     if ((currencyCode == "CAD" || currencyCode == "USD") && locale == Locale.CANADA) {
-        formatLocale = Locale.US
+        //formatLocale = Locale.US
     }
 
     val formatter: DecimalFormat = getCurrencyFormat(currencySymbol, currencyCode, formatLocale)
@@ -37,7 +37,7 @@ fun getCurrencyFormat(
     val currencyFormat = NumberFormat.getCurrencyInstance(locale) as DecimalFormat
     val symbols = currencyFormat.decimalFormatSymbols
 
-    //symbols.currencySymbol = currencySymbol
+    symbols.currencySymbol = currencySymbol
     //symbols.internationalCurrencySymbol = currencyCode
     symbols.currency = Currency.getInstance(currencyCode)
 

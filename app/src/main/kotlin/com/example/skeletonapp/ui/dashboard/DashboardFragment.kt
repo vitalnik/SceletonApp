@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.skeletonapp.databinding.FragmentDashboardBinding
-import com.example.skeletonapp.ui.shared.getFormattedCurrencyString
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Currency
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -37,24 +39,29 @@ class DashboardFragment : Fragment() {
         //var tmpStr = "Device locale: " + Locale.getDefault().displayName + "\n\n"
         var tmpStr = ""
 
-        val currencySymbol = "$"
-        val currencyCode = "USD"
+        val currencyCode = "EUR"
 
         mapOf<String, Locale>(
             "US" to Locale.US,
             "Canada" to Locale.CANADA,
+            "UK" to Locale.UK,
+            "Italy" to Locale.ITALY,
+            "Japan" to Locale.JAPAN,
             "Canada FR" to Locale.CANADA_FRENCH,
         ).forEach { (name, locale) ->
-            tmpStr += locale.displayName + "\n" + getFormattedCurrencyString(
-                100.99,
-                currencySymbol,
-                currencyCode,
-                locale
-            ) + "\n\n"
+
+            var currencySymbol =
+                Currency.getInstance(locale).getSymbol(locale)
+
+            tmpStr += locale.displayName + "\n" +
+                    100.99.toCurrencyString(currencySymbol) + "\n\n"
         }
 
         binding.text1.text =
             "CurrencyCode: " + currencyCode + "\n\nLocale: " + Locale.getDefault().displayName
+
+
+
 
         binding.text2.text = tmpStr
 
@@ -65,4 +72,22 @@ class DashboardFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    fun Double?.toCurrencyString(currencySymbol: String): String {
+
+        val valueToFormat = this ?: return ""
+
+        val currencyFormat = NumberFormat.getCurrencyInstance() as DecimalFormat
+        currencyFormat.minimumIntegerDigits = 1
+        currencyFormat.minimumFractionDigits = 2
+        currencyFormat.maximumFractionDigits = 2
+
+        val decimalFormatSymbols = currencyFormat.decimalFormatSymbols
+        decimalFormatSymbols.currencySymbol = currencySymbol
+
+        currencyFormat.decimalFormatSymbols = decimalFormatSymbols
+
+        return currencyFormat.format(valueToFormat)
+    }
+
 }
