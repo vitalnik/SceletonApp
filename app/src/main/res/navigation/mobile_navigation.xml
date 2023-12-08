@@ -41,6 +41,9 @@
             <action
                 android:id="@+id/action_navigation_fragment_feature_to_base_viewmodel_fragment"
                 app:destination="@id/base_viewmodel_fragment" />
+            <action
+                android:id="@+id/action_navigation_fragment_feature_to_memory_leaks_fragment"
+                app:destination="@id/memory_leaks_fragment" />
         </fragment>
 
         <fragment
@@ -70,6 +73,13 @@
             android:name="com.example.skeletonapp.ui.features.twowaybinding.TwoWayBindingFragment"
             android:label="@string/title_two_way_binding"
             tools:layout="@layout/fragment_two_way_binding" />
+
+        <fragment
+            android:id="@+id/memory_leaks_fragment"
+            android:name="com.example.skeletonapp.ui.features.memoryLeaks.MemoryLeaksFragment"
+            android:label="Memory Leaks"
+            tools:layout="@layout/fragment_memory_leaks" />
+
 
     </navigation>
 

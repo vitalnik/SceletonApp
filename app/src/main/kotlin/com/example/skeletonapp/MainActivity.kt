@@ -2,6 +2,7 @@ package com.example.skeletonapp
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+
+        Log.d("TAG", ">>> MainActivity created")
 
 //        val window = this.window
 //        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -179,5 +182,11 @@ class MainActivity : AppCompatActivity() {
         return WindowInsetsCompat.Builder()
             .setInsets(currentInsetTypeMask, insets)
             .build()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d("TAG", ">>> MainActivity destroyed")
     }
 }

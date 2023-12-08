@@ -73,6 +73,10 @@ class FeatureFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_fragment_feature_to_base_viewmodel_fragment)
         }
 
+        binding.memoryLeaksButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_fragment_feature_to_memory_leaks_fragment)
+        }
+
         binding.networkingButton.setOnClickListener {
             viewModel.testNetworking()
         }
