@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.skeletonapp.R
 import com.example.skeletonapp.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
@@ -33,8 +34,8 @@ class DashboardFragment : Fragment() {
 //            binding.dashboardText.text = it
         }
 
-//        binding.text1.text = getString(R.string.text_with_placeholder, "TEXT")
-//        binding.text2.text = getString(R.string.text_without_placeholder)
+        binding.text1.text = getString(R.string.text_with_placeholder, "TEXT")
+        binding.text2.text = getString(R.string.text_without_placeholder)
 
         //var tmpStr = "Device locale: " + Locale.getDefault().displayName + "\n\n"
         var tmpStr = ""
@@ -57,13 +58,9 @@ class DashboardFragment : Fragment() {
                     100.99.toCurrencyString(currencySymbol) + "\n\n"
         }
 
-        binding.text1.text =
-            "CurrencyCode: " + currencyCode + "\n\nLocale: " + Locale.getDefault().displayName
-
-
-
-
-        binding.text2.text = tmpStr
+//        binding.text1.text =
+//            "CurrencyCode: " + currencyCode + "\n\nLocale: " + Locale.getDefault().displayName
+//        binding.text2.text = tmpStr
 
         return root
     }
